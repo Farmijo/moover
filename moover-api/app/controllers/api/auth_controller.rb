@@ -16,7 +16,10 @@ module Api
     end
 
     def login
-      user = User.find_by(email: params[:email])
+      email = params[:email]&.strip&.downcase
+      return render json: { error: 'Email o contraseña inválidos' }, status: :unauthorized if email.blank?
+      
+      user = User.find_by(email: email)
       if user&.authenticate(params[:password])
         token = encode_token(user_id: user.id)
         render json: { user: user_data(user), token: token }, status: :ok

@@ -4,9 +4,33 @@ Rails.application.routes.draw do
     post 'signup', to: 'auth#signup'
     post 'login', to: 'auth#login'
     
+    # Tasks endpoints (public templates)
+    resources :tasks, only: [:index, :show] do
+      collection do
+        get :categories
+      end
+    end
+    
     resources :moves do
       collection do
         get :current
+      end
+      
+      # Nested resources for moves
+      resources :rooms do
+        collection do
+          get :room_types
+        end
+      end
+      
+      resources :user_tasks do
+        member do
+          patch :complete
+          patch :uncomplete
+        end
+        collection do
+          get :summary
+        end
       end
     end
   end

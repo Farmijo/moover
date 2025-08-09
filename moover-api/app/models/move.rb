@@ -1,5 +1,7 @@
 class Move < ApplicationRecord
   belongs_to :user
+  has_many :rooms, dependent: :destroy
+  has_many :user_tasks, dependent: :destroy
   
   # Enums
   enum move_type: { 
@@ -28,19 +30,41 @@ class Move < ApplicationRecord
   # Date validations
   validate :logical_date_order
   validate :dates_not_in_past, on: :create
-  
+  validate :destination_key_delivered_before_moving, on: :create
+
   # Status transition validation
   validate :valid_status_transition
   
   # Prevent deletion if in progress
   before_destroy :prevent_deletion_if_in_progress
   
+  # Generate user tasks when rooms are configured
+  def generate_user_tasks!
+    # Clear existing user tasks
+    user_tasks.destroy_all
+    
+    # Generate tasks for each configured room
+    rooms.each do |room|
+      generate_room_specific_tasks(room)
+    end
+    
+    # Generate general tasks (not room-specific)
+    generate_general_tasks
+    
+    true
+  end
+  
+  # Helper to get move out date for task timing calculations
+  def reference_date
+    origin_move_out_date || created_at.to_date
+  end
+  
   private
   
   def only_one_active_move_per_user
     return if completed?
     
-    existing_active_move = user.moves.where.not(status: :completed).where.not(id: id).first
+    existing_active_move = user.moves.where.not(status: [:completed, :planning]).where.not(id: id).first
     
     if existing_active_move
       errors.add(:base, 'Solo puedes tener una mudanza activa a la vez')
@@ -73,18 +97,26 @@ class Move < ApplicationRecord
       errors.add(:destination_key_delivery_date, 'no puede ser una fecha pasada')
     end
   end
-  
+
+  def destination_key_delivered_before_moving
+    return unless destination_key_delivery_date && origin_move_out_date
+
+    if destination_key_delivery_date > origin_move_out_date
+      errors.add(:destination_key_delivery_date, 'debe ser anterior a la fecha de salida del origen')
+    end
+  end
+
   def valid_status_transition
-    return unless status_changed? && persisted?
-    
-    old_status = status_was
+    return unless will_save_change_to_status? && persisted?
+
+    old_status = status_before_last_save
     new_status = status
-    
+
     # No se puede saltar de planning a completed directamente
     if old_status == 'planning' && new_status == 'completed'
       errors.add(:status, 'no puede cambiar directamente de "planificando" a "completada"')
     end
-    
+
     # No se puede regresar de completed a otros estados
     if old_status == 'completed'
       errors.add(:status, 'no se puede cambiar el estado de una mudanza completada')
@@ -96,5 +128,39 @@ class Move < ApplicationRecord
       errors.add(:base, 'No se puede eliminar una mudanza en progreso')
       throw(:abort)
     end
+  end
+  
+  def generate_room_specific_tasks(room)
+    Task.room_specific.each do |task|
+      next unless task.applies_to_room_type?(room.room_type)
+      
+      create_user_task_from_template(task, room)
+    end
+  end
+  
+  def generate_general_tasks
+    Task.general.each do |task|
+      create_user_task_from_template(task, nil)
+    end
+  end
+  
+  def create_user_task_from_template(task, room = nil)
+    task_name = room ? task.generate_name_for_room(room.name) : task.name
+    due_date = calculate_due_date(task.timing)
+    
+    user_tasks.create!(
+      task: task,
+      room: room,
+      name: task_name,
+      completed: false,
+      due_date: due_date
+    )
+  end
+  
+  def calculate_due_date(timing)
+    return nil if timing.nil?
+    
+    base_date = reference_date
+    base_date + timing.days
   end
 end
