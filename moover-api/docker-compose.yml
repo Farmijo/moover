@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: moover
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: moover_development
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://moover:password@db:5432/moover_development
+      RAILS_MASTER_KEY: 3ed93676c32cff143f4c014f71962434
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-tu_clave_jwt_fallback_para_desarrollo}
+
+volumes:
+  pgdata:
