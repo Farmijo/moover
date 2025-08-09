@@ -25,6 +25,9 @@ Rails.application.routes.draw do
         collection do
           get :room_types
         end
+        member do
+          post :generate_tasks
+        end
       end
       
       resources :user_tasks do

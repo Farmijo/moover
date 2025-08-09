@@ -1,6 +1,6 @@
 class UserTaskSerializer < ActiveModel::Serializer
   attributes :id, :completed, :due_date, :completed_at, :name,
-             :created_at, :updated_at
+             :created_at, :updated_at, :room_id
   
   # Nested associations
   belongs_to :move

@@ -53,6 +53,18 @@ class Move < ApplicationRecord
     
     true
   end
+
+  # Generate user tasks for a specific room
+  def generate_user_tasks_for_room!(room)
+    # Clear existing tasks for this room
+    existing_count = user_tasks.where(room: room).count
+    user_tasks.where(room: room).destroy_all
+    
+    # Generate room-specific tasks
+    tasks_count = generate_room_specific_tasks(room)
+    
+    tasks_count
+  end
   
   # Helper to get move out date for task timing calculations
   def reference_date
@@ -131,11 +143,15 @@ class Move < ApplicationRecord
   end
   
   def generate_room_specific_tasks(room)
+    tasks_count = 0
     Task.room_specific.each do |task|
       next unless task.applies_to_room_type?(room.room_type)
       
       create_user_task_from_template(task, room)
+      tasks_count += 1
     end
+    
+    tasks_count
   end
   
   def generate_general_tasks

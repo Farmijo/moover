@@ -1,6 +1,6 @@
 class Api::RoomsController < Api::ProtectedController
   before_action :set_move
-  before_action :set_room, only: [:show, :update, :destroy]
+  before_action :set_room, only: [:show, :update, :destroy, :generate_tasks]
 
   # GET /api/moves/:move_id/rooms
   def index
@@ -40,6 +40,24 @@ class Api::RoomsController < Api::ProtectedController
   def destroy
     @room.destroy
     head :no_content
+  end
+
+  # POST /api/moves/:move_id/rooms/:id/generate_tasks
+  def generate_tasks
+    begin
+      tasks_count = @move.generate_user_tasks_for_room!(@room)
+      
+      render json: { 
+        message: "Tareas generadas exitosamente para #{@room.name}", 
+        tasks_count: tasks_count,
+        room_id: @room.id,
+        room_name: @room.name
+      }
+    rescue StandardError => e
+      Rails.logger.error "Error generating tasks: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: "Error al generar tareas: #{e.message}" }, status: :unprocessable_entity
+    end
   end
 
   # GET /api/moves/:move_id/rooms/room_types
