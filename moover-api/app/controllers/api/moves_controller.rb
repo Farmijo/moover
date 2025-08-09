@@ -1,6 +1,6 @@
 class Api::MovesController < ApplicationController
   before_action :authenticate_request!
-  before_action :set_move, only: [:show, :update, :destroy]
+  before_action :set_move, only: [:show, :update, :destroy, :generate_tasks]
 
   # GET /api/moves/current - Get user's current active move
   def current
@@ -31,6 +31,21 @@ class Api::MovesController < ApplicationController
   # GET /api/moves/:id
   def show
     render json: { move: MoveSerializer.new(@move) }
+  end
+
+  # POST /api/moves/:id/generate_tasks - Generate user tasks based on rooms and templates
+  def generate_tasks
+    puts "Endpoint triggered"
+    if @move.generate_user_tasks!
+      render json: { 
+        message: 'Tareas generadas exitosamente',
+        tasks_count: @move.user_tasks.count
+      }, status: :ok
+    else
+      render json: { 
+        message: 'Error al generar tareas'
+      }, status: :unprocessable_entity
+    end
   end
 
   # POST /api/moves

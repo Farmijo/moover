@@ -16,6 +16,10 @@ Rails.application.routes.draw do
         get :current
       end
       
+      member do
+        post :generate_tasks
+      end
+      
       # Nested resources for moves
       resources :rooms do
         collection do

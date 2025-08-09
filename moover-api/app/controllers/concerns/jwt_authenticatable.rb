@@ -36,7 +36,7 @@ module JwtAuthenticatable
 
   def jwt_expired?
     return false unless jwt_token
-    
+
     begin
       JWT.decode(jwt_token, JWT_SECRET_KEY)
       false
