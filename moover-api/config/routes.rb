@@ -3,7 +3,14 @@ Rails.application.routes.draw do
   namespace :api do
     post 'signup', to: 'auth#signup'
     post 'login', to: 'auth#login'
+    
+    resources :moves do
+      collection do
+        get :current
+      end
+    end
   end
+  
   get '/api/profile', to: 'api/protected#profile'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
