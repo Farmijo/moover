@@ -27,10 +27,6 @@ module Api
 
     private
 
-    def encode_token(payload)
-      JWT.encode(payload, SECRET_KEY)
-    end
-
     def user_data(user)
       { id: user.id, email: user.email }
     end
