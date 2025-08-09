@@ -2,10 +2,6 @@ require 'jwt'
 
 module Api
   class AuthController < ApplicationController
-    # Use the same SECRET_KEY from ApplicationController
-    SECRET_KEY = ENV['JWT_SECRET_KEY'] || 
-                 Rails.application.credentials.jwt&.dig(:secret_key) || 
-                 Rails.application.secret_key_base
 
     def signup
       puts "Received signup request with params: #{params.inspect}"
