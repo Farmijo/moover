@@ -20,7 +20,7 @@ interface RoomData {
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(0); // Start with info page
+  const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [dateWarning, setDateWarning] = useState('');
@@ -72,6 +72,7 @@ export default function OnboardingPage() {
 
   // Animation sequence for step 0
   useEffect(() => {
+    setDateWarning('')
     if (currentStep === 0) {
       // Reset all animations
       setShowHeader(false);
@@ -105,13 +106,13 @@ export default function OnboardingPage() {
       const destKeyDate = destination_key_delivery_date ? new Date(destination_key_delivery_date) : null;
 
       // Check if origin key delivery is after move out date
-      if (keyDeliveryDate && moveOutDate && keyDeliveryDate > moveOutDate) {
-        return 'La fecha de entrega de llaves de origen no puede ser posterior a la fecha de mudanza';
+      if (keyDeliveryDate && moveOutDate && keyDeliveryDate < moveOutDate) {
+        return 'La fecha de entrega de llaves de origen no puede ser anterior a la fecha de mudanza';
       }
 
       // Check if destination key delivery is before move out date
-      if (destKeyDate && moveOutDate && destKeyDate < moveOutDate) {
-        return 'La fecha de entrega de llaves de destino no puede ser anterior a la fecha de mudanza';
+      if (destKeyDate && moveOutDate && destKeyDate > moveOutDate) {
+        return 'La fecha de entrega de llaves de destino no puede ser posterior a la fecha de mudanza';
       }
 
       return null; // No validation errors
@@ -128,7 +129,7 @@ export default function OnboardingPage() {
     const keyDeliveryDate = origin_key_delivery_date ? new Date(origin_key_delivery_date) : null;
     const moveOutDate = origin_move_out_date ? new Date(origin_move_out_date) : null;
     const destKeyDate = destination_key_delivery_date ? new Date(destination_key_delivery_date) : null;
-
+    console.log('Validating dates:', { keyDeliveryDate, moveOutDate, destKeyDate });
     // Check if origin key delivery is after move out date
     if (keyDeliveryDate && moveOutDate && keyDeliveryDate < moveOutDate) {
       return 'La fecha de entrega de llaves de origen no puede ser posterior a la fecha de mudanza';

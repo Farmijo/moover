@@ -190,27 +190,28 @@ export default function MoveDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <MoveDetailsHeader
-        move={move}
-        onEditClick={() => setShowEditModal(true)}
-        onDeleteClick={() => setShowDeleteModal(true)}
-      />
+    <main className="min-h-screen py-6">
+      <div className="gap-y-8 space-y-8">
+        {/* Header */}
+        <MoveDetailsHeader
+          move={move}
+          onEditClick={() => setShowEditModal(true)}
+          onDeleteClick={() => setShowDeleteModal(true)}
+        />
 
-      {/* Error Messages */}
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
+        {/* Error Messages */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-sm">
+            {error}
+          </div>
+        )}
 
-      {/* Success Messages */}
-      {successMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          ✅ {successMessage}
-        </div>
-      )}
+        {/* Success Messages */}
+        {successMessage && (
+          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-sm">
+            ✅ {successMessage}
+          </div>
+        )}
 
       {/* Warning Message */}
       <WarningMessage 
@@ -251,6 +252,7 @@ export default function MoveDetailPage() {
         move={move}
         isUpdating={updatingMove}
       />
-    </div>
+      </div>
+    </main>
   );
 }

@@ -2,46 +2,89 @@
 
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { moveService } from '@/lib/services';
+import { Move } from '@/types/api';
 import Link from 'next/link';
 
 export default function Home() {
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
+  const [checkingMoves, setCheckingMoves] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
-      if (isAuthenticated) {
-        router.push('/dashboard');
-      }
+    if (!loading && isAuthenticated) {
+      setCheckingMoves(true);
+      
+      const checkMovesAndRedirect = async () => {
+        try {
+          console.log('🔍 Home page checking moves...');
+          const response = await moveService.getAllMoves();
+          const moves = response.moves || [];
+          
+          const activeMoves = moves.filter((move: Move) => 
+            move.status === 'planning' || move.status === 'in_progress'
+          );
+          const completedMoves = moves.filter((move: Move) => move.status === 'completed');
+          
+          console.log('📊 Home moves analysis:', {
+            total: moves.length,
+            active: activeMoves.length,
+            completed: completedMoves.length
+          });
+
+          if (activeMoves.length > 0) {
+            console.log('➡️ Home redirecting to dashboard');
+            router.replace('/dashboard');
+          } else if (completedMoves.length > 0 && moves.length === completedMoves.length) {
+            console.log('➡️ Home redirecting to history (has completed moves)');
+            router.replace('/history');
+          } else if (moves.length === 0) {
+            console.log('➡️ Home redirecting to onboarding');
+            router.replace('/onboarding');
+          } else {
+            // Fallback to history
+            router.replace('/history');
+          }
+        } catch (err) {
+          console.error('❌ Home error checking moves:', err);
+          // On error, go to dashboard
+          router.replace('/dashboard');
+        }
+      };
+
+      checkMovesAndRedirect();
     }
   }, [isAuthenticated, loading, router]);
 
-  if (loading) {
+  if (loading || checkingMoves) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-20 w-20 border-4 border-[#7C3AED]/20 border-t-[#7C3AED] mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando...</p>
+          <p className="text-lg text-gray-600 mb-2">
+            {checkingMoves ? 'Verificando tu progreso...' : 'Cargando...'}
+          </p>
+          <p className="text-sm text-gray-500">Un momento por favor</p>
         </div>
       </div>
     );
   }
 
   if (isAuthenticated) {
-    return null; // Will redirect to dashboard
+    return null; // Will redirect
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB]">
+    <main className="min-h-screen py-6 bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB]">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-              <div className="sm:text-center lg:text-left">
+            <section className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+              <div className="sm:text-center lg:text-left gap-y-6">
                 <div className="flex justify-center lg:justify-start mb-8">
-                  <div className="h-20 w-20 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-xl flex items-center justify-center border border-[#7C3AED]/20">
+                  <div className="h-20 w-20 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-lg flex items-center justify-center border border-[#7C3AED]/20 shadow-md">
                     <span className="text-4xl">🏠</span>
                   </div>
                 </div>
@@ -56,27 +99,27 @@ export default function Home() {
                 <div className="mt-8 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-4">
                   <Link
                     href="/auth/signup"
-                    className="w-full sm:w-auto flex items-center justify-center px-8 py-4 border-0 text-base font-semibold rounded-xl text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+                    className="w-full sm:w-auto flex items-center justify-center px-8 py-4 border-0 text-base font-semibold rounded-lg text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                   >
                     ✨ Empezar gratis
                   </Link>
                   <Link
                     href="/auth/login"
-                    className="w-full sm:w-auto flex items-center justify-center px-8 py-4 border-2 border-[#7C3AED]/20 text-base font-semibold rounded-xl text-[#7C3AED] bg-white hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 transition-all duration-200"
+                    className="w-full sm:w-auto flex items-center justify-center px-8 py-4 border-2 border-[#7C3AED]/20 text-base font-semibold rounded-lg text-[#7C3AED] bg-white hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 shadow-sm hover:shadow-md transition-all duration-200"
                   >
                     Iniciar sesión →
                   </Link>
                 </div>
               </div>
-            </main>
+            </section>
           </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <div className="py-16 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center mb-16">
+          <div className="lg:text-center mb-16 gap-y-4">
             <h2 className="text-base bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent font-semibold tracking-wide uppercase mb-2">Características</h2>
             <p className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               Todo lo que necesitas para tu mudanza
@@ -84,9 +127,9 @@ export default function Home() {
           </div>
 
           <div className="mt-10">
-            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-              <div className="relative bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200">
-                <div className="absolute -top-4 left-8 flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white shadow-lg">
+            <div className="gap-y-8 space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
+              <div className="relative bg-white rounded-lg p-8 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-200">
+                <div className="absolute -top-4 left-8 flex items-center justify-center h-12 w-12 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white shadow-md">
                   📋
                 </div>
                 <p className="mt-4 text-lg leading-6 font-semibold text-gray-900 mb-2">Gestión de tareas</p>
@@ -95,8 +138,8 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="relative bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200">
-                <div className="absolute -top-4 left-8 flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-[#34D399] to-[#34D399]/80 text-white shadow-lg">
+              <div className="relative bg-white rounded-lg p-8 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-200">
+                <div className="absolute -top-4 left-8 flex items-center justify-center h-12 w-12 rounded-lg bg-gradient-to-r from-[#34D399] to-[#34D399]/80 text-white shadow-md">
                   🏠
                 </div>
                 <p className="mt-4 text-lg leading-6 font-semibold text-gray-900 mb-2">Gestión por habitaciones</p>
@@ -105,8 +148,8 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="relative bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200">
-                <div className="absolute -top-4 left-8 flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-r from-[#FCD34D] to-[#FCD34D]/80 text-white shadow-lg">
+              <div className="relative bg-white rounded-lg p-8 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-200">
+                <div className="absolute -top-4 left-8 flex items-center justify-center h-12 w-12 rounded-lg bg-gradient-to-r from-[#FCD34D] to-[#FCD34D]/80 text-white shadow-md">
                   📊
                 </div>
                 <p className="mt-4 text-lg leading-6 font-semibold text-gray-900 mb-2">Seguimiento de progreso</p>
@@ -117,7 +160,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

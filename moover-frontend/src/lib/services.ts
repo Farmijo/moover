@@ -148,7 +148,11 @@ export const userTaskService = {
     return response.data;
   },
 
-  async updateUserTask(moveId: number, taskId: number, taskData: Partial<UserTask>): Promise<UserTask> {
+  async updateUserTask(moveId: number, taskId: number, taskData: Partial<UserTask>): Promise<{
+    user_task: UserTask;
+    move_status?: string;
+    move_completed?: boolean;
+  }> {
     const response = await api.put(`/moves/${moveId}/user_tasks/${taskId}`, { user_task: taskData });
     return response.data;
   },

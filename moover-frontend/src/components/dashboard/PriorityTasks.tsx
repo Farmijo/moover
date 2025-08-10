@@ -3,7 +3,7 @@ import { PriorityUserTask } from './utils';
 
 interface PriorityTasksProps {
   priorityTasks: PriorityUserTask[];
-  onToggleTask: (taskId: number, completed: boolean) => void;
+  onToggleTask: (taskId: number, completed: boolean) => Promise<void>;
   currentMoveId: number;
 }
 
@@ -17,7 +17,7 @@ export default function PriorityTasks({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+    <div className="bg-white rounded-lg shadow-md border border-gray-100">
       <div className="px-8 py-6 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold bg-gradient-to-r from-[#F87171] to-[#FCD34D] bg-clip-text text-transparent">🚨 Tareas prioritarias</h3>
@@ -29,9 +29,9 @@ export default function PriorityTasks({
           </Link>
         </div>
       </div>
-      <div className="px-8 py-6 space-y-4">
+      <div className="px-8 py-6 gap-y-4 space-y-4">
         {priorityTasks.slice(0, 5).map((task) => (
-          <div key={task.id} className={`p-6 rounded-xl border-l-4 transition-all duration-200 hover:shadow-md ${
+          <div key={task.id} className={`p-6 rounded-lg border-l-4 transition-all duration-200 hover:shadow-sm ${
             task.daysFromNow < 0 ? 'border-[#F87171] bg-gradient-to-r from-[#F87171]/10 to-[#F87171]/5' :
             task.daysFromNow <= 3 ? 'border-[#FCD34D] bg-gradient-to-r from-[#FCD34D]/10 to-[#FCD34D]/5' :
             'border-[#FCD34D] bg-gradient-to-r from-[#FCD34D]/10 to-[#FCD34D]/5'
@@ -39,7 +39,7 @@ export default function PriorityTasks({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                  <span className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-medium ${
                     task.daysFromNow < 0 ? 'bg-[#F87171]/20 text-[#F87171] border border-[#F87171]/30' :
                     task.daysFromNow <= 3 ? 'bg-[#FCD34D]/20 text-[#FCD34D] border border-[#FCD34D]/30' :
                     'bg-[#FCD34D]/20 text-[#FCD34D] border border-[#FCD34D]/30'
@@ -47,7 +47,7 @@ export default function PriorityTasks({
                     {task.urgencyReason}
                   </span>
                   {task.room && (
-                    <span className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
+                    <span className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-md border border-gray-200">
                       🏠 {task.room.name}
                     </span>
                   )}
@@ -59,7 +59,7 @@ export default function PriorityTasks({
               </div>
               <button
                 onClick={() => onToggleTask(task.id, true)}
-                className="ml-4 inline-flex items-center px-4 py-2 border-0 text-xs font-medium rounded-xl text-white bg-gradient-to-r from-[#34D399] to-[#34D399]/80 hover:from-[#34D399]/90 hover:to-[#34D399]/70 transition-all duration-200 hover:scale-105 shadow-md"
+                className="ml-4 inline-flex items-center px-4 py-2 border-0 text-xs font-medium rounded-lg text-white bg-gradient-to-r from-[#34D399] to-[#34D399]/80 hover:from-[#34D399]/90 hover:to-[#34D399]/70 transition-all duration-200 hover:scale-105 shadow-sm"
               >
                 ✓ Completar
               </button>
