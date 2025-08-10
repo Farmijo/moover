@@ -195,10 +195,7 @@ export default function MoveDetailPage() {
       <MoveDetailsHeader
         move={move}
         onEditClick={() => setShowEditModal(true)}
-        onGenerateTasks={handleGenerateTasks}
         onDeleteClick={() => setShowDeleteModal(true)}
-        generatingTasks={generatingTasks}
-        canGenerateTasks={canGenerateTasks(move)}
       />
 
       {/* Error Messages */}

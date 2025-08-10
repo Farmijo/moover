@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode } from 'react';
 import Link from 'next/link';
+import DashboardNavigation from '@/components/dashboard/DashboardNavigation';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -33,7 +34,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navigation */}
+      {/* Top Navigation Bar */}
       <nav className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -57,6 +58,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </div>
       </nav>
+
+      {/* Dashboard Navigation */}
+      <DashboardNavigation />
 
       {/* Main content */}
       <main className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
