@@ -41,26 +41,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <Link href="/dashboard" className="flex-shrink-0">
                 <h1 className="text-2xl font-bold text-indigo-600">Moover</h1>
               </Link>
-              <div className="hidden md:ml-10 md:flex md:space-x-8">
-                <Link
-                  href="/dashboard"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/dashboard/moves"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Mudanzas
-                </Link>
-                <Link
-                  href="/dashboard/tasks"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Tareas
-                </Link>
-              </div>
             </div>
             
             <div className="flex items-center space-x-4">

@@ -1,7 +1,7 @@
 FROM ruby:3.1.3
 
 # Instalación de dependencias del sistema
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client curl
 
 # Carpeta de la app
 WORKDIR /app

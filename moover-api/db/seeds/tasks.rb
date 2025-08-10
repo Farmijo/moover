@@ -195,6 +195,90 @@ Task.create!([
 ])
 
 # ===============================
+# POST-MUDANZA
+# ===============================
+Task.create!([
+  {
+    name: "Montar muebles principales",
+    description: "Organiza la disposición inicial de los muebles más importantes",
+    category: "logistics",
+    is_room_specific: false,
+    timing: 1
+  },
+  {
+    name: "Desembalar caja de básicos",
+    description: "Desembala la caja con objetos esenciales para los primeros días",
+    category: "pack",
+    is_room_specific: false,
+    timing: 1
+  },
+  {
+    name: "Configurar wifi e internet",
+    description: "Verifica que la conexión funcione o contacta con el proveedor",
+    category: "admin",
+    is_room_specific: false,
+    timing: 2
+  },
+  {
+    name: "Cambiar dirección en bancos y documentos",
+    description: "Actualiza tu dirección en el DNI, bancos, seguros y otros organismos",
+    category: "admin",
+    is_room_specific: false,
+    timing: 3
+  },
+  {
+    name: "Registrar suministros (agua, luz, gas)",
+    description: "Comprueba que los contratos estén a tu nombre y activos",
+    category: "admin",
+    is_room_specific: false,
+    timing: 3
+  },
+  {
+    name: "Hacer limpieza final del nuevo hogar",
+    description: "Una limpieza rápida para quitar polvo de transporte o montaje",
+    category: "clean",
+    is_room_specific: false,
+    timing: 2
+  },
+  {
+    name: "Avisar portería o conocer vecinos",
+    description: "Haz saber que ya estás instalado y agradece su colaboración si la hubo",
+    category: "admin",
+    is_room_specific: false,
+    timing: 5
+  }
+])
+
+# ===============================
+# Preparatorias
+# ===============================
+
+Task.create!([
+  {
+    name: "Hacer inventario emocional",
+    description: "Decide qué objetos significativos quieres conservar o dejar atrás",
+    category: "admin",
+    is_room_specific: false,
+    timing: -10
+  },
+  {
+    name: "Planificar primeras comidas en el nuevo hogar",
+    description: "Piensa en qué cocinarás los primeros días sin tener todo colocado",
+    category: "logistics",
+    is_room_specific: false,
+    timing: -3
+  },
+  {
+    name: "Confirmar ayuda para el día de mudanza",
+    description: "Asegúrate de tener personas de confianza disponibles ese día",
+    category: "logistics",
+    is_room_specific: false,
+    timing: -5
+  }
+])
+
+
+# ===============================
 # REPORT FINAL
 # ===============================
 

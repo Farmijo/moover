@@ -19,4 +19,4 @@ COPY . .
 EXPOSE 3001
 
 # Comando para desarrollo (hot reload)
-CMD ["npm", "run", "dev", "--", "--port", "3001"]
+CMD ["npm", "run", "dev", "--", "--hostname", "0.0.0.0"]
