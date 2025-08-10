@@ -2,9 +2,11 @@
 
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, ReactNode } from 'react';
+import { useEffect, ReactNode, useState } from 'react';
 import Link from 'next/link';
 import DashboardNavigation from '@/components/dashboard/DashboardNavigation';
+import { moveService } from '@/lib/services';
+import { Move } from '@/types/api';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -13,6 +15,8 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isAuthenticated, loading, user, logout } = useAuth();
   const router = useRouter();
+  const [checkingMoves, setCheckingMoves] = useState(true);
+  const [hasMoves, setHasMoves] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -20,7 +24,33 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   }, [isAuthenticated, loading, router]);
 
-  if (loading) {
+  // Check if user has moves
+  useEffect(() => {
+    const checkUserMoves = async () => {
+      if (isAuthenticated && !loading) {
+        try {
+          const response = await moveService.getCurrentMove();
+          setHasMoves(!!response.move);
+        } catch {
+          // If there's an error getting moves, assume no moves
+          setHasMoves(false);
+        } finally {
+          setCheckingMoves(false);
+        }
+      }
+    };
+
+    checkUserMoves();
+  }, [isAuthenticated, loading]);
+
+  // Redirect to onboarding if no moves
+  useEffect(() => {
+    if (!checkingMoves && hasMoves === false && isAuthenticated) {
+      router.push('/onboarding');
+    }
+  }, [checkingMoves, hasMoves, isAuthenticated, router]);
+
+  if (loading || checkingMoves) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
@@ -28,8 +58,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     );
   }
 
-  if (!isAuthenticated) {
-    return null; // Will redirect to login
+  if (!isAuthenticated || hasMoves === false) {
+    return null; // Will redirect
   }
 
   return (
