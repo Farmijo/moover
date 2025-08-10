@@ -208,14 +208,6 @@ export default function DashboardPage() {
           <KeyDates currentMove={currentMove} />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Quick Actions */}
-              <QuickActions
-                currentMoveId={currentMove.id}
-                taskSummary={taskSummary}
-                onGenerateTasks={handleGenerateTasks}
-                generatingTasks={generatingTasks}
-                canGenerateTasks={canGenerateTasks(currentMove)}
-              />
             <div className="lg:col-span-2 space-y-8">
               {/* Priority Tasks */}
               <PriorityTasks
@@ -237,6 +229,14 @@ export default function DashboardPage() {
                 allUserTasks={allUserTasks}
               />
 
+              {/* Quick Actions */}
+              <QuickActions
+                currentMoveId={currentMove.id}
+                taskSummary={taskSummary}
+                onGenerateTasks={handleGenerateTasks}
+                generatingTasks={generatingTasks}
+                canGenerateTasks={canGenerateTasks(currentMove)}
+              />
             </div>
           </div>
         </div>

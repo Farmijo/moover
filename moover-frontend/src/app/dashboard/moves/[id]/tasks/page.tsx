@@ -137,7 +137,7 @@ export default function TasksPage() {
     const categories: Record<string, UserTask[]> = {};
     
     filtered.forEach(task => {
-      const category = task.task?.category || 'General';
+      const category = task.task?.category_display || 'General';
       if (!categories[category]) {
         categories[category] = [];
       }

@@ -132,8 +132,8 @@ export default function TaskItem({ userTask, onToggle, moveOutDate, keyDeliveryD
               {userTask.room && (
                 <span>🏠 {userTask.room.name}</span>
               )}
-              {userTask.task?.category && (
-                <span>📁 {userTask.task.category}</span>
+              {userTask.task?.category_display && (
+                <span>📁 {userTask.task.category_display}</span>
               )}
               {userTask.due_date && (
                 <span className={`${
