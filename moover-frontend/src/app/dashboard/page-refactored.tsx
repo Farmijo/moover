@@ -163,92 +163,84 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent">Dashboard</h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Estado general de tu mudanza
-          </p>
-        </div>
-
-        {/* Messages */}
-        {error && (
-          <div className="mb-6 bg-gradient-to-r from-[#F87171]/10 to-[#F87171]/5 border-2 border-[#F87171]/20 text-gray-800 px-6 py-4 rounded-xl shadow-sm">
-            <div className="flex items-center">
-              <span className="text-[#F87171] text-lg mr-3">⚠️</span>
-              <span>{error}</span>
-            </div>
-          </div>
-        )}
-
-        {successMessage && (
-          <div className="mb-6 bg-gradient-to-r from-[#34D399]/10 to-[#34D399]/5 border-2 border-[#34D399]/20 text-gray-800 px-6 py-4 rounded-xl shadow-sm">
-            <div className="flex items-center">
-              <span className="text-[#34D399] text-lg mr-3">✅</span>
-              <span>{successMessage}</span>
-            </div>
-          </div>
-        )}
-
-        {/* Warning Messages */}
-        <WarningMessages 
-          missingOriginKeyDate={!!currentMove && !canGenerateTasks(currentMove)}
-          onEditClick={handleEditClick}
-        />
-
-        {!currentMove ? (
-          <EmptyDashboardState />
-        ) : (
-          <div className="space-y-8">
-            {/* Current Move Status */}
-            <CurrentMoveStatus
-              currentMove={currentMove}
-              taskSummary={taskSummary}
-              generatingTasks={generatingTasks}
-              canGenerateTasks={canGenerateTasks(currentMove)}
-              onGenerateTasks={handleGenerateTasks}
-            />
-
-            {/* Key Dates */}
-            <KeyDates currentMove={currentMove} />
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-8">
-                {/* Priority Tasks */}
-                <PriorityTasks
-                  priorityTasks={priorityTasks}
-                  currentMoveId={currentMove.id}
-                  onToggleTask={handleToggleTask}
-                />
-
-                {/* Stats Cards */}
-                {taskSummary && <StatsCards taskSummary={taskSummary} />}
-              </div>
-
-              {/* Sidebar */}
-              <div className="space-y-8">
-                {/* Rooms Sidebar */}
-                <RoomsSidebar
-                  currentMoveId={currentMove.id}
-                  rooms={rooms}
-                  allUserTasks={allUserTasks}
-                />
-
-                {/* Quick Actions */}
-                <QuickActions
-                  currentMoveId={currentMove.id}
-                  taskSummary={taskSummary}
-                  onGenerateTasks={handleGenerateTasks}
-                  generatingTasks={generatingTasks}
-                  canGenerateTasks={canGenerateTasks(currentMove)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <p className="mt-2 text-lg text-gray-600">
+          Estado general de tu mudanza
+        </p>
       </div>
+
+      {/* Messages */}
+      {error && (
+        <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          {error}
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          ✅ {successMessage}
+        </div>
+      )}
+
+      {/* Warning Messages */}
+      <WarningMessages 
+        missingOriginKeyDate={!!currentMove && !canGenerateTasks(currentMove)}
+        onEditClick={handleEditClick}
+      />
+
+      {!currentMove ? (
+        <EmptyDashboardState />
+      ) : (
+        <div className="space-y-8">
+          {/* Current Move Status */}
+          <CurrentMoveStatus
+            currentMove={currentMove}
+            taskSummary={taskSummary}
+            generatingTasks={generatingTasks}
+            canGenerateTasks={canGenerateTasks(currentMove)}
+            onGenerateTasks={handleGenerateTasks}
+          />
+
+          {/* Key Dates */}
+          <KeyDates currentMove={currentMove} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-8">
+              {/* Priority Tasks */}
+              <PriorityTasks
+                priorityTasks={priorityTasks}
+                currentMoveId={currentMove.id}
+                onToggleTask={handleToggleTask}
+              />
+
+              {/* Stats Cards */}
+              {taskSummary && <StatsCards taskSummary={taskSummary} />}
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-8">
+              {/* Rooms Sidebar */}
+              <RoomsSidebar
+                currentMoveId={currentMove.id}
+                rooms={rooms}
+                allUserTasks={allUserTasks}
+              />
+
+              {/* Quick Actions */}
+              <QuickActions
+                currentMoveId={currentMove.id}
+                taskSummary={taskSummary}
+                onGenerateTasks={handleGenerateTasks}
+                generatingTasks={generatingTasks}
+                canGenerateTasks={canGenerateTasks(currentMove)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

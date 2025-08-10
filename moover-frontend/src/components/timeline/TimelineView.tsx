@@ -1,7 +1,8 @@
 import { Move, UserTask } from '@/types/api';
-import { generateTimelineWeeks, TimelineWeek as TimelineWeekType } from './utils';
 import TimelineWeek from './TimelineWeek';
 import TimelineMilestones from './TimelineMilestones';
+import { generateTimelineWeeks } from './utils';
+import { TimelineWeek as TimelineWeekType } from './utils';
 
 interface TimelineViewProps {
   move: Move;
@@ -17,16 +18,16 @@ export default function TimelineView({ move, userTasks }: TimelineViewProps) {
   
   if (weeks.length === 0) {
     return (
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+      <div className="bg-gradient-to-r from-[#FCD34D]/10 to-[#FCD34D]/5 border border-[#FCD34D]/30 rounded-xl p-8">
         <div className="flex">
           <div className="flex-shrink-0">
-            <span className="text-yellow-400 text-lg">⚠️</span>
+            <span className="text-[#FCD34D] text-2xl">⚠️</span>
           </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-yellow-800">
+          <div className="ml-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Información incompleta
             </h3>
-            <div className="mt-2 text-sm text-yellow-700">
+            <div className="text-gray-700">
               <p>
                 Para generar la línea de tiempo necesitamos al menos la fecha de entrega 
                 de llaves del origen y algunas tareas generadas.
@@ -44,16 +45,16 @@ export default function TimelineView({ move, userTasks }: TimelineViewProps) {
       <TimelineMilestones milestones={allMilestones} />
       
       {/* Weekly Timeline */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+        <div className="px-8 py-6 border-b border-gray-100">
+          <h3 className="text-lg font-semibold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent">
             📅 Planificación semanal
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 mt-1">
             Tareas organizadas por semana desde el inicio hasta la entrega de llaves
           </p>
         </div>
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-gray-100">
           {weeks.map((week: TimelineWeekType, index: number) => (
             <TimelineWeek 
               key={`week-${index}`}

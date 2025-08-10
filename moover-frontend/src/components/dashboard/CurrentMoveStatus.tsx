@@ -17,24 +17,24 @@ export default function CurrentMoveStatus({
   canGenerateTasks
 }: CurrentMoveStatusProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-      <div className="px-6 py-6">
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+      <div className="px-8 py-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-xl flex items-center justify-center">
               <span className="text-2xl">🏠</span>
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent">
                 Mudanza a {currentMove.destination_address.split(',')[0]}
               </h2>
               <div className="flex items-center space-x-4 mt-1">
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                   currentMove.status === 'planning' 
-                    ? 'bg-yellow-100 text-yellow-800'
+                    ? 'bg-gradient-to-r from-[#FCD34D]/20 to-[#FCD34D]/10 text-[#FCD34D] border border-[#FCD34D]/30'
                     : currentMove.status === 'in_progress'
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-green-100 text-green-800'
+                    ? 'bg-gradient-to-r from-[#3B82F6]/20 to-[#3B82F6]/10 text-[#3B82F6] border border-[#3B82F6]/30'
+                    : 'bg-gradient-to-r from-[#34D399]/20 to-[#34D399]/10 text-[#34D399] border border-[#34D399]/30'
                 }`}>
                   {currentMove.status === 'planning' && '📝 Planificando'}
                   {currentMove.status === 'in_progress' && '🚀 En progreso'}
@@ -53,7 +53,7 @@ export default function CurrentMoveStatus({
               <button
                 onClick={onGenerateTasks}
                 disabled={generatingTasks || !canGenerateTasks}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center px-6 py-3 border-0 text-sm font-medium rounded-xl shadow-lg text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-xl"
                 title={!canGenerateTasks ? 'Se requiere definir la fecha de entrega de llaves del origen' : ''}
               >
                 {generatingTasks ? '⏳ Generando...' : '⚡ Generar tareas'}
@@ -61,9 +61,9 @@ export default function CurrentMoveStatus({
             )}
             <Link
               href={`/dashboard/moves/${currentMove.id}`}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="inline-flex items-center px-6 py-3 border-2 border-gray-200 text-sm font-medium rounded-xl text-gray-700 bg-white hover:border-[#7C3AED]/30 hover:text-[#7C3AED] transition-all duration-200"
             >
-              Ver detalles
+              Ver detalles →
             </Link>
           </div>
         </div>

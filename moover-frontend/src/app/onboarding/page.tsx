@@ -222,7 +222,7 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8">
         {/* Header */}
         <div className="text-center">
@@ -237,16 +237,17 @@ export default function OnboardingPage() {
         {/* Progress */}
         <div className="flex justify-center">
           <div className="flex items-center space-x-4">
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-              currentStep >= 1 ? 'bg-indigo-600 text-white' : 'bg-gray-300 text-gray-600'
+            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-all duration-300 ${
+              currentStep >= 1 ? 'bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white shadow-lg' : 'bg-white border-2 border-gray-200 text-gray-600'
             }`}>
               1
             </div>
-            <div className={`w-16 h-1 ${currentStep >= 2 ? 'bg-indigo-600' : 'bg-gray-300'}`} />
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-              currentStep >= 2 ? 'bg-indigo-600 text-white' : 'bg-gray-300 text-gray-600'
+            <div className={`w-16 h-1 transition-all duration-300 ${currentStep >= 2 ? 'bg-gradient-to-r from-[#7C3AED] to-[#3B82F6]' : 'bg-gray-200'}`} />
+            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-all duration-300 ${
+              currentStep >= 2 ? 'bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white shadow-lg' : 'bg-white border-2 border-gray-200 text-gray-600'
             }`}>
               2
+            </div>
             </div>
             <div className={`w-16 h-1 ${currentStep >= 3 ? 'bg-indigo-600' : 'bg-gray-300'}`} />
             <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
@@ -278,17 +279,17 @@ export default function OnboardingPage() {
 
         {/* Step 0: Information */}
         {currentStep === 0 && (
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100">
             {/* Animated header */}
             <div className={`text-center mb-8 transition-all duration-1000 ${
               showHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
             }`}>
-              <div className={`mx-auto h-16 w-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4 transition-all duration-500 ${
+              <div className={`mx-auto h-16 w-16 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-full flex items-center justify-center mb-4 transition-all duration-500 ${
                 showHeader ? 'scale-100 rotate-0' : 'scale-50 rotate-180'
               }`}>
                 <span className="text-2xl">📋</span>
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent mb-4">
                 Planifica tu mudanza con éxito
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -302,7 +303,7 @@ export default function OnboardingPage() {
             }`}>
               {/* Left column - Key info */}
               <div className="space-y-6">
-                <div className={`bg-blue-50 rounded-lg p-6 transition-all duration-700 delay-100 ${
+                <div className={`bg-gradient-to-br from-[#3B82F6]/10 to-[#3B82F6]/5 border border-[#3B82F6]/20 rounded-xl p-6 transition-all duration-700 delay-100 ${
                   showCards ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 -translate-x-8 scale-95'
                 }`}>
                   <div className="flex items-start">
@@ -310,10 +311,10 @@ export default function OnboardingPage() {
                       <span className="text-2xl animate-bounce">⏰</span>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-lg font-semibold text-blue-900 mb-2">
+                      <h3 className="text-lg font-semibold text-[#3B82F6] mb-2">
                         Planificación mínima: 1 mes
                       </h3>
-                      <p className="text-blue-800 text-sm">
+                      <p className="text-gray-700 text-sm">
                         Una mudanza requiere al menos un mes de preparación para asegurar que todo salga bien. 
                         Desde contratar servicios hasta organizar documentos.
                       </p>
@@ -321,7 +322,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
 
-                <div className={`bg-green-50 rounded-lg p-6 transition-all duration-700 delay-300 ${
+                <div className={`bg-gradient-to-br from-[#34D399]/10 to-[#34D399]/5 border border-[#34D399]/20 rounded-xl p-6 transition-all duration-700 delay-300 ${
                   showCards ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 -translate-x-8 scale-95'
                 }`}>
                   <div className="flex items-start">
@@ -329,10 +330,10 @@ export default function OnboardingPage() {
                       <span className="text-2xl animate-pulse">✅</span>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-lg font-semibold text-green-900 mb-2">
+                      <h3 className="text-lg font-semibold text-[#34D399] mb-2">
                         Tareas para todos
                       </h3>
-                      <p className="text-green-800 text-sm">
+                      <p className="text-gray-700 text-sm">
                         Hay tareas genéricas que todos necesitan hacer: cambio de domicilio, 
                         contratar servicios, empacar elementos comunes...
                       </p>
@@ -343,7 +344,7 @@ export default function OnboardingPage() {
 
               {/* Right column - Customization */}
               <div className="space-y-6">
-                <div className={`bg-purple-50 rounded-lg p-6 transition-all duration-700 delay-200 ${
+                <div className={`bg-gradient-to-br from-[#7C3AED]/10 to-[#7C3AED]/5 border border-[#7C3AED]/20 rounded-xl p-6 transition-all duration-700 delay-200 ${
                   showCards ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-8 scale-95'
                 }`}>
                   <div className="flex items-start">
@@ -351,10 +352,10 @@ export default function OnboardingPage() {
                       <span className="text-2xl animate-bounce">🏠</span>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-lg font-semibold text-purple-900 mb-2">
+                      <h3 className="text-lg font-semibold text-[#7C3AED] mb-2">
                         Personalización por habitaciones
                       </h3>
-                      <p className="text-purple-800 text-sm">
+                      <p className="text-gray-700 text-sm">
                         Según las habitaciones de tu casa actual, generaremos tareas específicas: 
                         cocina, dormitorios, oficina, garaje...
                       </p>
@@ -362,7 +363,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
 
-                <div className={`bg-yellow-50 rounded-lg p-6 transition-all duration-700 delay-400 ${
+                <div className={`bg-gradient-to-br from-[#FCD34D]/10 to-[#FCD34D]/5 border border-[#FCD34D]/20 rounded-xl p-6 transition-all duration-700 delay-400 ${
                   showCards ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-8 scale-95'
                 }`}>
                   <div className="flex items-start">
@@ -370,10 +371,10 @@ export default function OnboardingPage() {
                       <span className="text-2xl animate-pulse">📅</span>
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-lg font-semibold text-yellow-900 mb-2">
+                      <h3 className="text-lg font-semibold text-[#FCD34D] mb-2">
                         Timeline visual
                       </h3>
-                      <p className="text-yellow-800 text-sm">
+                      <p className="text-gray-700 text-sm">
                         Organizaremos todas las tareas en un timeline semanal desde hoy 
                         hasta el día de tu mudanza.
                       </p>
@@ -394,10 +395,10 @@ export default function OnboardingPage() {
                 <div className={`p-4 transition-all duration-700 delay-100 ${
                   showSteps ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'
                 }`}>
-                  <div className={`bg-indigo-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 transition-all duration-500 ${
+                  <div className={`bg-gradient-to-r from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 transition-all duration-500 ${
                     showSteps ? 'animate-bounce' : ''
                   }`}>
-                    <span className="text-indigo-600 font-semibold">1</span>
+                    <span className="bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent font-semibold">1</span>
                   </div>
                   <h4 className="font-medium text-gray-900">Información básica</h4>
                   <p className="text-sm text-gray-600">Direcciones y fechas importantes</p>
@@ -405,10 +406,10 @@ export default function OnboardingPage() {
                 <div className={`p-4 transition-all duration-700 delay-300 ${
                   showSteps ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'
                 }`}>
-                  <div className={`bg-indigo-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 transition-all duration-500 delay-200 ${
+                  <div className={`bg-gradient-to-r from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 transition-all duration-500 delay-200 ${
                     showSteps ? 'animate-bounce' : ''
                   }`}>
-                    <span className="text-indigo-600 font-semibold">2</span>
+                    <span className="bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent font-semibold">2</span>
                   </div>
                   <h4 className="font-medium text-gray-900">Tus habitaciones</h4>
                   <p className="text-sm text-gray-600">Configurar espacios para tareas específicas</p>
@@ -416,10 +417,10 @@ export default function OnboardingPage() {
                 <div className={`p-4 transition-all duration-700 delay-500 ${
                   showSteps ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'
                 }`}>
-                  <div className={`bg-indigo-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 transition-all duration-500 delay-400 ${
+                  <div className={`bg-gradient-to-r from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 transition-all duration-500 delay-400 ${
                     showSteps ? 'animate-bounce' : ''
                   }`}>
-                    <span className="text-indigo-600 font-semibold">3</span>
+                    <span className="bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent font-semibold">3</span>
                   </div>
                   <h4 className="font-medium text-gray-900">¡Listo!</h4>
                   <p className="text-sm text-gray-600">Tu plan de mudanza personalizado</p>
@@ -431,19 +432,19 @@ export default function OnboardingPage() {
             <button
               type="button"
               onClick={() => setCurrentStep(1)}
-              className={`w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 font-medium mt-8 transition-all duration-1000 transform hover:scale-105 ${
+              className={`w-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white py-3 px-6 rounded-xl hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 focus:ring-2 focus:ring-[#7C3AED]/50 focus:ring-offset-2 font-medium mt-8 transition-all duration-1000 transform hover:scale-105 shadow-lg hover:shadow-xl ${
                 showButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
               }`}
             >
-              Comenzar configuración
+              Comenzar configuración ✨
             </button>
           </div>
         )}
 
         {/* Step 1: Move Details */}
         {currentStep === 1 && (
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent mb-6">
               Información de tu mudanza
             </h2>
             
@@ -457,7 +458,7 @@ export default function OnboardingPage() {
                   required
                   value={moveData.origin_address}
                   onChange={(e) => setMoveData({...moveData, origin_address: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                   placeholder="Ej: Calle Principal 123, Madrid"
                 />
               </div>
@@ -471,7 +472,7 @@ export default function OnboardingPage() {
                   required
                   value={moveData.destination_address}
                   onChange={(e) => setMoveData({...moveData, destination_address: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                   placeholder="Ej: Avenida Central 456, Barcelona"
                 />
               </div>
@@ -487,7 +488,7 @@ export default function OnboardingPage() {
                     type="date"
                     value={moveData.destination_key_delivery_date}
                     onChange={(e) => setMoveData({...moveData, destination_key_delivery_date: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                   />
                 </div>
                 <div>
@@ -499,7 +500,7 @@ export default function OnboardingPage() {
                     type="date"
                     value={moveData.origin_move_out_date}
                     onChange={(e) => setMoveData({...moveData, origin_move_out_date: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                   />
                 </div>
 
@@ -512,40 +513,66 @@ export default function OnboardingPage() {
                     type="date"
                     value={moveData.origin_key_delivery_date}
                     onChange={(e) => setMoveData({...moveData, origin_key_delivery_date: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                   />
                 </div>
 
               </div>
 
+              {/* Date validation errors */}
+              {error && (
+                <div className="bg-gradient-to-r from-[#F87171]/10 to-[#F87171]/5 border border-[#F87171]/20 rounded-xl p-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="text-[#F87171] text-lg">⚠️</span>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-[#F87171] text-sm font-medium">
+                        {error}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Date help info */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="bg-gradient-to-br from-[#3B82F6]/10 to-[#3B82F6]/5 border border-[#3B82F6]/20 rounded-xl p-4">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <span className="text-blue-400 text-lg">💡</span>
+                    <span className="text-[#3B82F6] text-lg">💡</span>
                   </div>
                   <div className="ml-3">
-                    <p className="text-blue-800 text-xs">
+                    <p className="text-gray-700 text-sm">
                       <strong>Orden lógico:</strong> Primero recibes las llaves de destino → después haces la mudanza → finalmente entregas las llaves de origen.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 font-medium"
-              >
-                Continuar
-              </button>
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(0)}
+                  className="flex-1 bg-white text-gray-700 py-3 px-6 rounded-xl border-2 border-gray-200 hover:border-gray-300 focus:ring-2 focus:ring-gray-200 font-medium transition-all duration-200"
+                >
+                  ← Volver
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white py-3 px-6 rounded-xl hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 focus:ring-2 focus:ring-[#7C3AED]/50 focus:ring-offset-2 font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50"
+                >
+                  {loading ? 'Procesando...' : 'Continuar →'}
+                </button>
+              </div>
             </form>
           </div>
         )}
 
         {/* Step 2: Rooms */}
         {currentStep === 2 && (
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent mb-6">
               Añade las habitaciones de tu hogar
             </h2>
             <p className="text-gray-600 mb-6">
@@ -554,7 +581,7 @@ export default function OnboardingPage() {
 
             <div className="space-y-4 mb-6">
               {rooms.map((room, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-4">
+                <div key={index} className="border-2 border-gray-100 rounded-xl p-6 hover:border-[#7C3AED]/20 transition-all duration-200">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -564,7 +591,7 @@ export default function OnboardingPage() {
                         type="text"
                         value={room.name}
                         onChange={(e) => updateRoom(index, 'name', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                         placeholder="Ej: Dormitorio principal"
                       />
                     </div>
@@ -576,7 +603,7 @@ export default function OnboardingPage() {
                       <select
                         value={room.room_type}
                         onChange={(e) => updateRoom(index, 'room_type', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                       >
                         {roomTypes.map(type => (
                           <option key={type} value={type}>
@@ -590,14 +617,14 @@ export default function OnboardingPage() {
                       <button
                         type="button"
                         onClick={() => removeRoom(index)}
-                        className="w-full bg-red-100 text-red-700 py-2 px-3 rounded-md hover:bg-red-200 text-sm"
+                        className="w-full bg-gradient-to-r from-[#F87171]/10 to-[#F87171]/5 text-[#F87171] py-3 px-4 rounded-xl hover:from-[#F87171]/20 hover:to-[#F87171]/10 text-sm font-medium border-2 border-[#F87171]/20 transition-all duration-200"
                       >
-                        Eliminar
+                        🗑️ Eliminar
                       </button>
                     </div>
                   </div>
 
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Descripción (opcional)
                     </label>
@@ -605,7 +632,7 @@ export default function OnboardingPage() {
                       type="text"
                       value={room.description}
                       onChange={(e) => updateRoom(index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200"
                       placeholder="Ej: Habitación grande con balcón"
                     />
                   </div>
@@ -616,31 +643,30 @@ export default function OnboardingPage() {
             <button
               type="button"
               onClick={addRoom}
-              className="w-full border-2 border-dashed border-gray-300 rounded-lg p-4 text-gray-600 hover:border-indigo-500 hover:text-indigo-600 mb-6"
+              className="w-full border-2 border-dashed border-[#7C3AED]/30 rounded-xl p-6 text-[#7C3AED] hover:border-[#7C3AED] hover:bg-[#7C3AED]/5 mb-6 font-medium transition-all duration-200"
             >
-              + Añadir habitación
+              ✨ Añadir habitación
             </button>
 
-            <div className="flex space-x-4">
+            <div className="flex gap-4">
               <button
                 type="button"
                 onClick={() => setCurrentStep(1)}
-                className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-200"
+                className="flex-1 bg-white text-gray-700 py-3 px-6 rounded-xl border-2 border-gray-200 hover:border-gray-300 focus:ring-2 focus:ring-gray-200 font-medium transition-all duration-200"
               >
-                Atrás
+                ← Atrás
               </button>
               <button
                 type="button"
                 onClick={handleCompleteOnboarding}
                 disabled={loading}
-                className="flex-1 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 font-medium disabled:opacity-50"
+                className="flex-1 bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white py-3 px-6 rounded-xl hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 focus:ring-2 focus:ring-[#7C3AED]/50 focus:ring-offset-2 font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50"
               >
-                {loading ? loadingMessage || 'Procesando...' : 'Completar configuración'}
+                {loading ? loadingMessage || 'Procesando...' : 'Completar configuración ✨'}
               </button>
             </div>
           </div>
         )}
       </div>
-    </div>
   );
 }

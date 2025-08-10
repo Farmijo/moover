@@ -49,7 +49,7 @@ export const generateTimelineWeeks = (move: Move, userTasks: UserTask[]): Timeli
   
   // Start from the Monday of the week containing the start date
   const weekStart = getStartOfWeek(startDate);
-  let currentWeekStart = new Date(weekStart);
+  const currentWeekStart = new Date(weekStart);
   let weekNumber = 1;
   
   while (currentWeekStart <= endDate) {
@@ -165,7 +165,7 @@ const getMilestonesForWeek = (
       milestones.push({
         date: keyDate,
         title: 'Entrega de llaves origen',
-        description: 'Recibir llaves del piso actual',
+        description: 'Devolver las llaves del piso actual',
         type: 'origin_key'
       });
     }

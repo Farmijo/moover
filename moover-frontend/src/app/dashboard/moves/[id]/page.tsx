@@ -232,15 +232,7 @@ export default function MoveDetailPage() {
         rooms={rooms}
       />
 
-      {/* Tasks Preview */}
-      <TasksPreviewCard 
-        move={move}
-        userTasks={userTasks}
-        totalTasks={totalTasks}
-        onGenerateTasks={handleGenerateTasks}
-        generatingTasks={generatingTasks}
-        canGenerateTasks={canGenerateTasks(move)}
-      />
+
 
       {/* Delete Move Modal */}
       <DeleteMoveModal

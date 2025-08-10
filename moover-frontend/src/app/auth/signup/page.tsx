@@ -44,33 +44,39 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <div className="text-center">
+          <div className="mx-auto h-16 w-16 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-xl flex items-center justify-center mb-6 border border-[#7C3AED]/20">
+            <span className="text-3xl">🏠</span>
+          </div>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent mb-3">
             Crear cuenta en Moover
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="text-gray-600">
             O{' '}
             <Link 
               href="/auth/login" 
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-[#7C3AED] hover:text-[#3B82F6] transition-colors duration-200"
             >
-              inicia sesión si ya tienes cuenta
+              inicia sesión si ya tienes cuenta →
             </Link>
           </p>
         </div>
         
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6 bg-white rounded-xl shadow-xl p-8 border border-gray-100" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {error}
+            <div className="bg-gradient-to-r from-[#F87171]/10 to-[#F87171]/5 border border-[#F87171]/30 text-gray-800 px-6 py-4 rounded-xl">
+              <div className="flex items-center">
+                <span className="text-[#F87171] text-lg mr-3">⚠️</span>
+                <span>{error}</span>
+              </div>
             </div>
           )}
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email
               </label>
               <input
@@ -80,13 +86,13 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200 text-gray-900"
                 placeholder="tu@email.com"
               />
             </div>
             
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Contraseña
               </label>
               <input
@@ -96,13 +102,13 @@ export default function SignupPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200 text-gray-900"
                 placeholder="Contraseña (mínimo 6 caracteres)"
               />
             </div>
             
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
                 Confirmar contraseña
               </label>
               <input
@@ -112,7 +118,7 @@ export default function SignupPage() {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200 text-gray-900"
                 placeholder="Confirmar contraseña"
               />
             </div>
@@ -122,9 +128,9 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-4 px-6 border-0 text-base font-semibold rounded-xl text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7C3AED]/50 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
             >
-              {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+              {loading ? 'Creando cuenta... ⏳' : 'Crear cuenta ✨'}
             </button>
           </div>
         </form>
