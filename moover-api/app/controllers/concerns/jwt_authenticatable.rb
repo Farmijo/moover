@@ -3,9 +3,7 @@ module JwtAuthenticatable
 
   included do
     # Priority order: ENV variable > Rails credentials > secret_key_base fallback
-    JWT_SECRET_KEY = ENV['JWT_SECRET_KEY'] || 
-                     Rails.application.credentials.jwt&.dig(:secret_key) || 
-                     Rails.application.secret_key_base
+    JWT_SECRET_KEY = ENV['JWT_SECRET_KEY']
   end
 
   def authenticate_request!
