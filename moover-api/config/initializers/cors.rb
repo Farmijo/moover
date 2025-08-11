@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://moover-frontend.vercel.app'
+    origins 'https://moover-omega.vercel.app'
 
     resource '*',
       headers: :any,
