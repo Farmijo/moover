@@ -32,7 +32,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://moover:password@db:5432/moover_development
+      DATABASE_URL: ${DATABASE_URL}
       RAILS_MASTER_KEY: 3ed93676c32cff143f4c014f71962434
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-tu_clave_jwt_fallback_para_desarrollo}
       RAILS_ENV: development
