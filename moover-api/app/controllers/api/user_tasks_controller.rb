@@ -34,7 +34,14 @@ class Api::UserTasksController < Api::ProtectedController
   # PATCH/PUT /api/moves/:move_id/user_tasks/1
   def update
     if @user_task.update(user_task_params)
-      render json: @user_task, serializer: UserTaskSerializer
+      # Recargar la mudanza para obtener el estado actualizado
+      @move.reload
+      
+      render json: {
+        user_task: UserTaskSerializer.new(@user_task),
+        move_status: @move.status,
+        move_completed: @move.completed?
+      }
     else
       render json: { errors: @user_task.errors }, status: :unprocessable_entity
     end

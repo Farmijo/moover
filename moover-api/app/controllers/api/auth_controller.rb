@@ -2,9 +2,23 @@ require 'jwt'
 
 module Api
   class AuthController < ApplicationController
+    # Lista de emails permitidos para la beta privada
+    ALLOWED_EMAILS = [
+      'farmijo16@gmail.com'
+    ].freeze
 
     def signup
       puts "Received signup request with params: #{params.inspect}"
+      
+      email = user_params[:email]&.strip&.downcase
+      
+      # Verificar si el email está en la lista de permitidos
+      unless ALLOWED_EMAILS.include?(email)
+        return render json: { 
+          error: 'Esta aplicación está actualmente en beta privada. Solo usuarios con invitación pueden registrarse.' 
+        }, status: :forbidden
+      end
+      
       user = User.new(user_params)
       puts "User params: #{user_params.inspect}"
       if user.save

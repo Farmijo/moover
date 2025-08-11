@@ -10,6 +10,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [isPrivateBetaError, setIsPrivateBetaError] = useState(false);
   const [loading, setLoading] = useState(false);
   
   const { signup } = useAuth();
@@ -18,6 +19,7 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsPrivateBetaError(false);
     
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -35,29 +37,47 @@ export default function SignupPage() {
       await signup(email, password);
       router.push('/dashboard');
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { errors?: string[] } } };
-      const errorMessage = error.response?.data?.errors?.[0] || 'Error al crear la cuenta';
-      setError(errorMessage);
+      const error = err as { response?: { status?: number; data?: { error?: string; errors?: string[] } } };
+      
+      // Manejar específicamente el error de beta privada
+      if (error.response?.status === 403) {
+        setIsPrivateBetaError(true);
+        setError(error.response.data?.error || 'Acceso restringido a beta privada');
+      } else {
+        const errorMessage = error.response?.data?.errors?.[0] || 
+                           error.response?.data?.error || 
+                           'Error al crear la cuenta';
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FAF6F3] to-[#F7F9FB] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/20 rounded-xl flex items-center justify-center mb-6 border border-[#7C3AED]/20">
+          <div className="mx-auto h-16 w-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center mb-6 border border-purple-200">
             <span className="text-3xl">🏠</span>
           </div>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] bg-clip-text text-transparent mb-3">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-3">
             Crear cuenta en Moover
           </h2>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+            <div className="flex items-center">
+              <span className="text-blue-500 text-lg mr-2">🔒</span>
+              <div>
+                <p className="text-sm font-medium text-blue-800">Beta Privada</p>
+                <p className="text-xs text-blue-700">Solo usuarios con invitación pueden registrarse</p>
+              </div>
+            </div>
+          </div>
           <p className="text-gray-600">
             O{' '}
             <Link 
               href="/auth/login" 
-              className="font-medium text-[#7C3AED] hover:text-[#3B82F6] transition-colors duration-200"
+              className="font-medium text-purple-600 hover:text-blue-600 transition-colors duration-200"
             >
               inicia sesión si ya tienes cuenta →
             </Link>
@@ -66,10 +86,32 @@ export default function SignupPage() {
         
         <form className="mt-8 space-y-6 bg-white rounded-xl shadow-xl p-8 border border-gray-100" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-gradient-to-r from-[#F87171]/10 to-[#F87171]/5 border border-[#F87171]/30 text-gray-800 px-6 py-4 rounded-xl">
-              <div className="flex items-center">
-                <span className="text-[#F87171] text-lg mr-3">⚠️</span>
-                <span>{error}</span>
+            <div className={`px-6 py-4 rounded-xl ${
+              isPrivateBetaError 
+                ? 'bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200' 
+                : 'bg-gradient-to-r from-red-50 to-red-50 border border-red-200'
+            }`}>
+              <div className="flex items-start">
+                <span className={`text-lg mr-3 mt-0.5 ${
+                  isPrivateBetaError ? 'text-blue-500' : 'text-red-500'
+                }`}>
+                  {isPrivateBetaError ? '🔒' : '⚠️'}
+                </span>
+                <div className="flex-1">
+                  <p className={`font-medium ${
+                    isPrivateBetaError ? 'text-blue-800' : 'text-red-800'
+                  }`}>
+                    {isPrivateBetaError ? 'Beta Privada' : 'Error'}
+                  </p>
+                  <p className={`text-sm mt-1 ${
+                    isPrivateBetaError ? 'text-blue-700' : 'text-red-700'
+                  }`}>
+                    {isPrivateBetaError 
+                      ? 'Moover está actualmente en beta privada. Solo usuarios con invitación pueden registrarse. Si crees que deberías tener acceso, contacta al administrador.'
+                      : error
+                    }
+                  </p>
+                </div>
               </div>
             </div>
           )}
@@ -86,7 +128,7 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200 text-gray-900"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-600 transition-all duration-200 text-gray-900"
                 placeholder="tu@email.com"
               />
             </div>
@@ -102,7 +144,7 @@ export default function SignupPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200 text-gray-900"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-600 transition-all duration-200 text-gray-900"
                 placeholder="Contraseña (mínimo 6 caracteres)"
               />
             </div>
@@ -118,7 +160,7 @@ export default function SignupPage() {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-[#7C3AED]/50 focus:border-[#7C3AED] transition-all duration-200 text-gray-900"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-600 transition-all duration-200 text-gray-900"
                 placeholder="Confirmar contraseña"
               />
             </div>
@@ -128,7 +170,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-4 px-6 border-0 text-base font-semibold rounded-xl text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:from-[#7C3AED]/90 hover:to-[#3B82F6]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7C3AED]/50 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+              className="w-full flex justify-center py-4 px-6 border-0 text-base font-semibold rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
             >
               {loading ? 'Creando cuenta... ⏳' : 'Crear cuenta ✨'}
             </button>

@@ -49,7 +49,8 @@ export default function DashboardNavigation() {
       name: 'Timeline',
       href: '/dashboard/timeline',
       icon: CalendarDaysIcon,
-      current: pathname === '/dashboard/timeline'
+      current: pathname === '/dashboard/timeline',
+      disabled: !currentMove
     },
     {
       name: 'Detalles',

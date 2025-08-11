@@ -20,6 +20,9 @@ class UserTask < ApplicationRecord
   # Callback para cambiar el estado de la mudanza cuando se complete la primera tarea
   after_save :update_move_status_if_first_task_completed, if: :saved_change_to_completed?
   
+  # Callback para verificar si todas las tareas están completadas
+  after_save :check_all_tasks_completed, if: :saved_change_to_completed?
+  
   # Helper methods
   def overdue?
     !completed? && due_date && due_date < Date.current
@@ -67,6 +70,21 @@ class UserTask < ApplicationRecord
         move.update_column(:status, Move.statuses[:planning])
         Rails.logger.info "Mudanza ##{move.id} regresó a estado 'planning' al no tener tareas completadas"
       end
+    end
+  end
+  
+  def check_all_tasks_completed
+    # Solo verificar si la tarea se acaba de completar y la mudanza está en progreso
+    return unless completed? && move.in_progress?
+    
+    # Verificar si todas las tareas están completadas
+    total_tasks = move.user_tasks.count
+    completed_tasks = move.user_tasks.completed.count
+    
+    if total_tasks > 0 && completed_tasks == total_tasks
+      # Todas las tareas están completadas, marcar mudanza como completada
+      move.update_column(:status, Move.statuses[:completed])
+      Rails.logger.info "¡Mudanza ##{move.id} completada! Todas las #{total_tasks} tareas han sido terminadas"
     end
   end
 end
