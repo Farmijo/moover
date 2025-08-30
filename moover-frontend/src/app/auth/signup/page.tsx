@@ -9,6 +9,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptPrivacyPolicy, setAcceptPrivacyPolicy] = useState(false);
   const [error, setError] = useState('');
   const [isPrivateBetaError, setIsPrivateBetaError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,11 @@ export default function SignupPage() {
     e.preventDefault();
     setError('');
     setIsPrivateBetaError(false);
+    
+    if (!acceptPrivacyPolicy) {
+      setError('Debes aceptar la política de privacidad para continuar');
+      return;
+    }
     
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -164,6 +170,30 @@ export default function SignupPage() {
                 placeholder="Confirmar contraseña"
               />
             </div>
+          </div>
+
+          {/* Privacy Policy Checkbox */}
+          <div className="flex items-start gap-3">
+            <input
+              id="acceptPrivacyPolicy"
+              name="acceptPrivacyPolicy"
+              type="checkbox"
+              required
+              checked={acceptPrivacyPolicy}
+              onChange={(e) => setAcceptPrivacyPolicy(e.target.checked)}
+              className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-300 border-gray-300 rounded"
+            />
+            <label htmlFor="acceptPrivacyPolicy" className="text-sm text-gray-700">
+              Al registrarte, aceptas nuestra{' '}
+              <Link 
+                href="/privacidad" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-purple-600 hover:text-blue-600 underline transition-colors duration-200"
+              >
+                Política de Privacidad
+              </Link>
+            </label>
           </div>
 
           <div>

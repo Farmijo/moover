@@ -31,11 +31,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      RAILS_MASTER_KEY: 3ed93676c32cff143f4c014f71962434
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-tu_clave_jwt_fallback_para_desarrollo}
-      RAILS_ENV: development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      RAILS_ENV: ${RAILS_ENV}
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:3000/up || exit 1"]
       interval: 30s
@@ -57,9 +59,11 @@ services:
     depends_on:
       api:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
-      NODE_ENV: development
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:3000
+      NODE_ENV: ${NODE_ENV}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
       WATCHPACK_POLLING: true
       CHOKIDAR_USEPOLLING: true
     command: npm run dev -- --hostname 0.0.0.0
